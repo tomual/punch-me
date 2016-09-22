@@ -1,0 +1,21 @@
+{
+	"tasks": [{
+		"label": "well"
+	}, {
+		"label": "this"
+	}, {
+		"label": "is cool"
+	}],
+	"today": {
+		"date": "2016-09-08",
+		"tasks": {
+			"labels": ["well", "this", "is cool"]
+		}
+	},
+	"punchcard": {
+		"start": "2016-09-08",
+		"holes": {
+			"labels": ["0", "1", "2", "3", "1", "0", "2", "0", "1"]
+		}
+	}
+}

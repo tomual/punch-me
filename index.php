@@ -5,7 +5,7 @@ body {
     font-size: 14px;
     letter-spacing: 2px;
     background: #1A786F;
-    color: #823B09;
+    color: #FFF;
 }
 h1 {
     font-size: 18px;
@@ -80,7 +80,13 @@ section {
 </head>
 <body>
 <?php 
+$myfile = fopen("data", "r") or die("Unable to open file!");
+$data = fread($myfile,filesize("data"));
+fclose($myfile);
 
+echo $data;
+$data = json_decode( $data );
+var_dump($data);
 $max = 0;
 $tasks = array();
 if( $_POST )
