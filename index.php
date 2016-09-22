@@ -85,10 +85,10 @@ $data = fread($myfile,filesize("data"));
 fclose($myfile);
 
 echo $data;
-$data = json_decode( $data );
+$data = json_decode( $data, true );
 var_dump($data);
 $max = 0;
-$tasks = array();
+$tasks = $data['tasks'];
 if( $_POST )
 {
 	var_dump( $_POST );
@@ -101,6 +101,7 @@ if( $_POST )
 $begin = new DateTime( date('Y-m-d', strtotime('sunday this week -20 weeks')) );
 $today = new DateTime();
 $cursor = $begin;
+$week = 1;
 //var_dump( $period );
 ?>
 <section>
@@ -113,7 +114,8 @@ while( $cursor < $today )
 	for( $i = 0; $i < 7; $i++ )
 	{
 		$cursor->add(new DateInterval('P1D'));
-		$value = rand(0,2) == 1;
+		//$value = rand(0,2) == 1;
+		$value = $data['punchcard']['holes'][$week][$i];
 		if( $cursor < $today )
 		{
 			if( $value )
@@ -128,6 +130,7 @@ while( $cursor < $today )
 			}
 		}
 	}
+	$week++;
 	echo "</div>";
 }
 
@@ -137,9 +140,10 @@ while( $cursor < $today )
 <div class="tasks">
 	<form method="post">
 		<?php echo $today->format( "l dS m Y Y-m-d\n" ) ?>
+		<br />
 		<?php foreach ($tasks as $index => $task): ?>
-			<input type="checkbox" name="<?= $index ?>">
-			<?= $task ?>
+			<input type="checkbox" name="<?= '.' ?>">
+			<?= $task['label'] ?><br />
 		<?php endforeach ?>
 		<input type="submit" name="submit">
 	</form>
