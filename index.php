@@ -57,21 +57,42 @@ section {
 }
 .day {
     height: 20px;
-    width: 10px;
+    width: 20px;
     margin-left: 5px;
     margin-bottom: 20px;
-    border: 1px solid #B8AB6F;
     border-radius: 2px;
     background: #EDE1A8;
 }
-.day-punched {
-    margin-bottom: 20px;
-    background: #1A786F;
-    box-shadow: inset 0 0 1em #066158;
-    height: 22px;
-    width: 22px;
+.blank {
+    height: 20px;
+    width: 10px;
+    opacity: 0.5;
+    border: 1px solid #B8AB6F;
+    border-radius: 2px;
+    background: #EDE1A8;
+    margin: 0 auto;
+}
+.hole {
     border: 0;
     border-radius: 11px;
+    background: #1A786F;
+    box-shadow: inset 0 0 1em #066158;
+    position: relative;
+    margin: 0 auto;
+}
+.hole.all {
+    height: 22px;
+    width: 22px;
+}
+.hole.part {
+    top: 2px;
+    height: 18px;
+    width: 18px;
+}
+.hole.one {
+    top: 5px;
+    height: 12px;
+    width: 12px;
 }
 </style>
 <html>
@@ -118,16 +139,22 @@ while( $cursor < $today )
 		$value = $data['punchcard']['holes'][$week][$i];
 		if( $cursor < $today )
 		{
-			if( $value )
-			{
-		echo "<div class=\"day-punched\"></div>";
-
+			echo "<div class=\"day\">";
+			switch ($value) {
+				case 0:
+					echo "<div class=\"blank\"></div>";
+					break;
+				case 1:
+					echo "<div class=\"hole one\"></div>";
+					break;
+				case count($tasks):
+					echo "<div class=\"hole all\"></div>";
+					break;							
+				default:
+					echo "<div class=\"hole part\"></div>";
+					break;
 			}
-			else
-			{
-
-		echo "<div class=\"day\"></div>";
-			}
+			echo "</div>";
 		}
 	}
 	$week++;
