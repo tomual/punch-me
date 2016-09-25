@@ -101,23 +101,25 @@ section {
 </head>
 <body>
 <?php 
-$myfile = fopen("data", "r") or die("Unable to open file!");
-$data = fread($myfile,filesize("data"));
-fclose($myfile);
+$file = fopen("data", "r") or die("Unable to open file!");
+$data = fread($file,filesize("data"));
+fclose($file);
 
-echo $data;
 $data = json_decode( $data, true );
-var_dump($data);
+//var_dump($data);
 $max = 0;
-$tasks = $data['tasks'];
 if( $_POST )
 {
-	var_dump( $_POST );
+	//var_dump( $_POST );
 	if( !empty( $_POST['task'] ) )
 	{
-		$tasks[$max] = $_POST['task'];
+		$data['tasks'][]['label'] = $_POST['task'];
 	}
+	echo json_encode($data,TRUE);
+	file_put_contents("data", json_encode($data,TRUE));
 }
+
+$tasks = $data['tasks'];
 
 $begin = new DateTime( date('Y-m-d', strtotime('sunday this week -20 weeks')) );
 $today = new DateTime();
