@@ -1,0 +1,17 @@
+{
+	"tasks": {
+		"0": {
+			"label": "My First Task"
+		}
+	},
+	"today": {
+		"date": "2016-09-30",
+		"tasks": {
+			"keys": []
+		}
+	},
+	"punchcard": {
+		"holes": {
+		}
+	}
+}
