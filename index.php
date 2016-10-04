@@ -14,14 +14,19 @@ $file = fopen("data", "r") or die("Unable to open file!");
 $data = fread($file, filesize("data"));
 fclose($file);
 $data = json_decode($data, true);
+$tasks = $data['tasks'];
 $max = 0;
 
 if ($_POST)
 {
 	if (!empty($_POST['add']))
 	{
-		$data['tasks'][]['label'] = $_POST['task'];
-		file_put_contents("data", json_encode($data, TRUE));
+		if(count($tasks)<8 && !empty(trim($_POST['task'])))
+		{
+			$data['tasks'][]['label'] = str_replace('+',' ',htmlspecialchars(trim($_POST['task'])));
+			$tasks = $data['tasks'];
+			file_put_contents("data", json_encode($data, TRUE));
+		}
 	}
 
 	if (!empty($_POST['update']))
@@ -50,9 +55,10 @@ if ($_GET)
 	{
 		foreach($data['tasks'] as $key => $task)
 		{
-			if ($task['label'] === $_GET['delete'])
+			if ($task['label'] === urldecode($_GET['delete']))
 			{
 				unset($data['tasks'][$key]);
+				$tasks = $data['tasks'];
 				file_put_contents("data", json_encode($data, TRUE));
 				break;
 			}
@@ -60,7 +66,6 @@ if ($_GET)
 	}
 }
 
-$tasks = $data['tasks'];
 $selected = array();
 
 if ($data['today']['date'] == $today->format('Y-m-d'))
@@ -149,7 +154,7 @@ while ($cursor < $today)
 		<br />
 		<?php foreach($tasks as $index => $task): ?>
 			<input type="checkbox" name="<?php echo $index ?>" id="<?php echo $index ?>" <?php echo in_array($index, $selected) ? 'checked' : '' ?>>
-			<label for="<?php echo $index ?>"><?php echo $task['label'] ?><a href="?delete=<?php echo $task['label'] ?>" class="delete">&times;</a></label>
+			<label for="<?php echo $index ?>"><?php echo $task['label'] ?><a href="?delete=<?php echo urlencode($task['label']) ?>" class="delete">&times;</a></label>
 			<br />
 		<?php endforeach ?>
 		<input type="submit" name="update" value="Update">
