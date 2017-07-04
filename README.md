@@ -1,7 +1,7 @@
 # punch-me
-PHP habit punch card
+PHP habit punch card. Made for a <10kb challenge.
 
-![alt tag](http://puu.sh/rt9We/d6ee9a513a.png)
+![alt tag](https://pbs.twimg.com/media/CtrWSJGVUAAVbL_.jpg)
 
 Punch Me is a PHP habit punch card to keep track of daily to-do tasks.
 
